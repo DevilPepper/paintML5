@@ -56,9 +56,6 @@ function getMousePos(e, that)
 
 $(document).ready(function(){
 	context = document.getElementById('paintML5').getContext("2d");
-	document.addEventListener("touchstart", function(){}, false);
-	document.addEventListener("touchmove", function(){}, false);
-	document.addEventListener("touchend", function(){}, false);
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +88,7 @@ $("#redo").on('click', function(e){
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-$('#paintML5').on('mousemove', function(e){
+$('#paintML5').on('mousemove touchmove', function(e){
 	//get mouse click position
 	var mouse = getMousePos(e, this);
 	if(mouseisdown)
@@ -106,7 +103,7 @@ $('#paintML5').on('mousemove', function(e){
 	redraw();
 });
 
-$('#paintML5').on('mousedown', function(e){
+$('#paintML5').on('mousedown touchstart', function(e){
 	var mouse = getMousePos(e, this);
 	//clean up steps if this step is after a series of undos
 	while(steps.length > numsteps) steps.pop();
@@ -118,7 +115,7 @@ $('#paintML5').on('mousedown', function(e){
 	redraw();
 });
 
-$('#paintML5').on('mouseup mouseleave', function(e){
+$('#paintML5').on('mouseup mouseleave touchend', function(e){
 	mouseisdown = false;
 });
 
