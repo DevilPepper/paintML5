@@ -10,3 +10,7 @@ canvas{
 .parameters, .tools, .steps{
 	float:left;
 }
+
+body{
+	overflow: hidden;
+}
