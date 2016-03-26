@@ -49,7 +49,10 @@ Tool.prototype.setEndPoint = function (point)
 //Get the mouse's coordinates reletive to the mouse
 function getMousePos(e, that)
 {
-	return {x: e.pageX - that.offsetLeft, y: e.pageY - that.offsetTop};
+	var loc;
+	if('touches' in e.originalEvent) loc = {x: e.originalEvent.touches[0].clientX, y: e.originalEvent.touches[0].clientY};
+	else loc = {x: e.originalEvent.clientX, y: e.originalEvent.clientY};
+	return {x: loc.x - that.offsetLeft, y: loc.y - that.offsetTop};
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +108,7 @@ $('#paintML5').on('mousemove touchmove', function(e){
 
 $('#paintML5').on('mousedown touchstart', function(e){
 	var mouse = getMousePos(e, this);
+	//console.log(mouse);
 	//clean up steps if this step is after a series of undos
 	while(steps.length > numsteps) steps.pop();
 	//increase number of steps by 1
