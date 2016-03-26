@@ -3,12 +3,30 @@
     <head>
         <meta charset="UTF-8" />
         <title>paintML5</title>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
     <body>
 
-		<div id="paintML5"></div>
+		<canvas id="paintML5" width="800" height="600"></canvas>
+		<div class="colors">
+			<div id="purple"></div>
+			<div id="green"></div>
+			<div id="yellow"></div>
+			<div id="brown"></div>
+		</div>
+		<div class="sizes">
+			<a href="#" id="1">small</a>
+			<a href="#" id="3">normal</a>
+			<a href="#" id="5">large</a>
+				<a href="#" id="10">huge</a>
+		</div>
+		
+		<div class="tools">
+			<a href="#" id="eraser">eraser</a>
+			<a href="#" id="brush">brush</a>
+		</div>
 
-
+	<script src="js/jquery-2.2.2.min.js" type="text/javascript"></script>
 	<script src="js/paintStuff.js" type="text/javascript"></script>
 </body>
 </html>

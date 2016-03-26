@@ -1,0 +1,12 @@
+.colors div{
+	width: 32px;
+	height: 32px;
+}
+
+canvas{
+	border: 1px solid black;
+}
+
+.colors, .sizes, .tools{
+	float:left;
+}
