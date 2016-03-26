@@ -8,22 +8,22 @@
     <body>
 
 		<canvas id="paintML5" width="800" height="600"></canvas>
-		<div class="colors">
-			<div id="purple"></div>
-			<div id="green"></div>
-			<div id="yellow"></div>
-			<div id="brown"></div>
-		</div>
-		<div class="sizes">
-			<a href="#" id="1">small</a>
-			<a href="#" id="3">normal</a>
-			<a href="#" id="5">large</a>
-				<a href="#" id="10">huge</a>
+		<div class="parameters">
+			<input type="color" id="colorpicker" value="#000000"><br />
+			<!-- step is 1 by default -->
+			<label>Size<input id="sizer" type="range" min="1" max="15" /></label>
 		</div>
 		
 		<div class="tools">
-			<a href="#" id="eraser">eraser</a>
 			<a href="#" id="brush">brush</a>
+			<a href="#" id="eraser">eraser</a><br />
+			<a href="#" id="line">line</a>
+			<a href="#" id="rectangle">rectangle</a><br />
+		</div>
+
+		<div id="steps">
+			<a href="#" id="undo">&lt-</a>
+			<a href="#" id="redo">-&gt</a>
 		</div>
 
 	<script src="js/jquery-2.2.2.min.js" type="text/javascript"></script>
