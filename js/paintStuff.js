@@ -288,7 +288,7 @@ $("#sizer").on('change', function(e){
 	//console.log(curSize);
 });
 
-$(".tools a").on('click', function(e){
+$(".tools span").on('click', function(e){
 	currTool = $(this).attr('id');
 });
 
@@ -331,8 +331,8 @@ $('#paintML5').on('mousedown touchstart', function(e){
 	numsteps++;
 	//add this step to the array
 	steps.push(new Tool(currSize, currColor, currTool, mouse));
-	console.log(steps);
-	console.log(currTool);
+	//console.log(steps);
+	//console.log(currTool);
 	mouseisdown = true;
 	
 	redraw();
@@ -354,9 +354,9 @@ $('#paintML5').on('mouseup mouseleave touchend', function(e){
 
 
 function redraw(){
-	console.log(steps);
-	console.log(steps.length);
-	console.log(numsteps);
+	//console.log(steps);
+	//console.log(steps.length);
+	//console.log(numsteps);
 	context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
 	context.fillStyle = "#FFFFFF";
 	context.fillRect(0,0,context.canvas.width,context.canvas.height);
