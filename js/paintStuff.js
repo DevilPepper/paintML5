@@ -31,7 +31,7 @@ var Tool = function (size, color, tool, start){
 	this.points = [start];
 	//start the shape with start and end points at the start.
 	if(tool === rectangle || tool === line) this.points.push(start);
-	else if(tool === bucket) this.points.pop();
+	//else if(tool === bucket) this.points.pop();
 };
 Tool.prototype.constructor = Tool;
 //add points to the stroke to make it longer
@@ -44,6 +44,13 @@ Tool.prototype.setEndPoint = function (point)
 {
 	this.points.pop();
 	this.points.push(point);
+}
+//returns whether or not the coordinate is already on the list
+Tool.prototype.redundant = function (point)
+{
+	var found = false;
+	for(var i=0; i<this.points.length && !found; i++) found |= ((this.points[i].x == point.x) && (this.points[i].y == point.y));
+	return found;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,12 +105,15 @@ function getCL(color)
 	return [((cL >> 16) & 0xFF), ((cL >> 8) & 0xFF), (cL & 0xFF), 0xFF];
 }
 
-function pbucket(coords)
+//function pbucket(coords)
+function pbucket(step)
 {
 	var imageData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
-	var targetCl = getPixel(coords)*4;
+	//var targetCl = getPixel(coords)*4;
+	var targetCl = getPixel(step.points[0])*4;
 
-	var newCL = getCL(currColor);
+	//var newCL = getCL(currColor);
+	var newCL = getCL(step.color);
 	var tarCL = [imageData.data[targetCl],imageData.data[targetCl+1],imageData.data[targetCl+2],imageData.data[targetCl+3]];
 	
 	if(tarCL[0] != newCL[0] && tarCL[1] != newCL[1] && tarCL[2] != newCL[2] || tarCL[3] != newCL[3])
@@ -116,11 +126,11 @@ function pbucket(coords)
 		//console.log(currColor);
 		//console.log(targetCl);
 		//console.log(newCL);
-		context.fillStyle = currColor;
+		//context.fillStyle = currColor;
 				
 		//push coords to stack/queue (Q)
 		//
-		Q.push(coords);
+		Q.push(step.points[0]);
 		//while Q not empty
 		while(Q.length > 0)
 		{
@@ -154,7 +164,7 @@ function pbucket(coords)
 				//console.log([currPixel, "pre"]);
 				//console.log([imageData.data[currPixel.base],imageData.data[currPixel.base+1],imageData.data[currPixel.base+2],imageData.data[currPixel.base+3]]);
 				//steps[numsteps-1].points.push(coords);
-				steps[numsteps-1].addPoint(currPixel);
+				//if(!steps[numsteps-1].redundant(currPixel))steps[numsteps-1].addPoint(currPixel);
 				imageData.data[currPixel.base] = newCL[0];
 				imageData.data[currPixel.base+1] = newCL[1];
 				imageData.data[currPixel.base+2] = newCL[2];
@@ -342,7 +352,7 @@ $('#paintML5').on('mousedown touchstart', function(e){
 		//context.fillStyle = currColor;
 		//console.log(getColor(mouse));
 		//console.log(mouse);
-		pbucket(mouse);
+		pbucket(steps[numsteps-1]);
 	}
 });
 
@@ -385,23 +395,41 @@ function redraw(){
 		}
 		else if(steps[i].tool == bucket)
 		{
-			var newCL = getCL(steps[i].color);
+			//var newCL = getCL(steps[i].color);
+			pbucket(steps[i]);
+			/*
 			var imageData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
-			context.fillStyle = steps[i].color;
+			//context.fillStyle = steps[i].color;
 			for(var j=0; j<steps[i].points.length; j++)
 			{
-				//console.log(steps[i].points[j].base);
+				console.log(steps[i].points[j].base);
+				console.log(imageData.data[steps[i].points[j].base]);
+				console.log(imageData.data[steps[i].points[j].base+1]);
+				console.log(imageData.data[steps[i].points[j].base+2]);
+				console.log(imageData.data[steps[i].points[j].base+3]);
+
 				imageData.data[steps[i].points[j].base] = newCL[0];
 				imageData.data[steps[i].points[j].base+1] = newCL[1];
 				imageData.data[steps[i].points[j].base+2] = newCL[2];
 				imageData.data[steps[i].points[j].base+3] = newCL[3];
+
+				console.log(imageData.data[steps[i].points[j].base]);
+				console.log(imageData.data[steps[i].points[j].base+1]);
+				console.log(imageData.data[steps[i].points[j].base+2]);
+				console.log(imageData.data[steps[i].points[j].base+3]);
+				
 				//context.beginPath();
 				//context.fillRect(steps[i].points[j].x, steps[i].points[j].y, 1, 1);
 				//context.closePath();
 				//context.stroke();
 			}
 			//console.log(imageData);
+			//console.log(steps[i]);
+			//console.log(newCL);
+
 			context.putImageData(imageData, 0, 0);
+			//return;
+			*/
 		}
 		else
 		{
